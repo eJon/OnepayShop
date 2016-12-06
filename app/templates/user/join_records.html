@@ -1,0 +1,55 @@
+<div class="join-records">
+	<!-- <ul class="header-options">
+		<li class="active">全部</li>
+		<li>进行中</li>
+		<li>即将揭晓</li>
+		<li>已揭晓</li>
+	</ul> -->
+	<table class="table">
+		<thead>
+			<tr>
+				<th>商品图片</th>
+				<th>商品名称</th>
+				<th>商品期号</th>
+				<th>夺宝状态</th>
+				<th>参与人次</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody class="join-body">
+			{% for item in records %}
+			<tr>
+				<td class="col-img"><a target="_blank" href="{{url_for('period_detail',pid=item.period.id)}}"><img src="{{item.period.product.thumbnail}}"></a></td>
+				<td class="product-info">
+					<a class="link-color" target="_blank" href="{{url_for('period_detail',pid=item.period.id)}}">{{item.period.product.title}}
+					</a>
+					<div class="describe-info">总需：<span>{{item.period.total_count}}</span>人次</div>
+					{% if not item.period.status %}
+					<div class="sell-progress">
+						{% set pecent = item.period.join_count*100 / item.period.total_count %}
+						<span class="orange" style="width:{{pecent}}%"></span>
+					</div>
+					<div class="describe-info clearfix">
+						<span>参与：{{item.period.join_count}}人次</span>
+						{% set left=item.period.total_count- item.period.join_count %}
+						<span class="pull-right">剩余：{{left}}人次</span>
+					</div>
+					{% endif %}
+				</td>
+				<td>{{item.period.number}}</td>
+				{% set status = item.period.status %}
+				<td>{% if not status %}正在进行{% elif status==1 %}等待揭晓{% else %}已经揭晓{% endif %}</td>
+				<td>
+					<div>{{item.count}}人次</div>
+					{% if not item.period.status and current_user.get_id() == user.id %}
+					<div class="buy-more">
+						<a target="_blank" class="link-color" href="{{url_for('period_detail',pid=item.period.id)}}">追加</a>
+					</div>
+					{% endif %}
+				</td>
+				<td><a target="_blank" class="link-color" target="_blank" href="{{url_for('period_detail',pid=item.period.id)}}">详情</a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

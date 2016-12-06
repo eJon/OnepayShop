@@ -1,0 +1,67 @@
+{% extends 'frontend-base.html' %}
+{% block second_header %}
+{% endblock %}
+{% block content %}
+<div style="height: 80px"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-8">
+            <div class="inner">
+                <form role="form" action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
+                    {{ register_user_form.hidden_tag() }}
+                    <div class="form-group">
+                        <label>用户名</label>
+                        {% for error in register_user_form.name.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                        {{ register_user_form.name(class_="form-control", placeholder="用户名") }}
+                    </div>
+                    <div class="form-group">
+                        <label>邮箱</label>
+                        {% for error in register_user_form.email.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                        {{ register_user_form.email(class_="form-control", placeholder="邮箱") }}
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        {% for error in register_user_form.password.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                        {{ register_user_form.password(class_="form-control", placeholder="密码") }}
+                    </div>
+                    <div class="form-group">
+                        {% if register_user_form.password_confirm %}
+                        {% for error in register_user_form.password_confirm.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                        {{ register_user_form.password_confirm(class_="form-control", placeholder="重复输入密码") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <span> 已经有帐号了？</span>  <a href="{{ url_for_security('login') }}" class="btn btn-primary">登录</a>
+                        <button type="submit" class="btn btn-success pull-right">注册</button>
+                    </div>
+                </form>
+                <div class="social-login">
+                    <span>联合登录</span>
+                    <a href="">
+                        <img src="/static/img/qq.png" title="腾讯qq">
+                    </a>
+                    <a href="">
+                        <img src="/static/img/weibo.png" title="新浪微博">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+    <!-- Plugins and Custom scripts
+    ================================================== -->
+   <!--   <script src="{{ url_for('static', filename='scripts/tron/tron-ui.js')}}"></script> -->
+
+{% endblock %}

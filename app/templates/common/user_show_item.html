@@ -1,0 +1,21 @@
+<div class="col-md-3 col-sm-4 col-xs-6 fix-padding">
+	<div class="announced-item">
+		<div class="img-link">
+			<a href="{{url_for('show_detail',sid=item.id)}}"><img src="{{item.thumbnail}}!list"></a>
+		</div>
+		<div class="item-title">
+            <a href="{{url_for('show_detail',sid=item.id)}}">{{item.period.product.title}}</a>
+        </div>
+        <div><span>幸运号码：</span><strong>{{item.period.kj_num}}</strong></div>
+		<div class="content">
+			<ul class="post-info">
+				<li class="user-name"><a href="{{url_for('user_home',uid=item.owner.id)}}">{{item.owner.name}}</a></li>
+				<li class="time">{{item.created_datetime}}</li>
+			</ul>
+            <div class="post">{{item.title}}</div>
+          	{% if not item.passed %}
+            <span class="red-color">未通过</span><a class="pull-right link-color" href="{{url_for('show_edit',show_id=item.id)}}">修改</a>
+            {% endif %}
+		</div>
+	</div>
+</div>

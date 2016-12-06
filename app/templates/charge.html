@@ -1,0 +1,50 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="charge">
+	<div class="container">
+		<h3 class="header">充值夺宝币(1元=1夺宝币),可用于夺宝，充值的款项无法退回</h3>
+		<div class="charge-content">
+			<div style="font-size:16px;margin-bottom:10px;">充值数量</div>
+			<form method="post">
+				<ul class="count-select">
+					<!-- <li class="first"></li> -->
+					<li data-value="10">10</li>
+					<li data-value="20">20</li>
+					<li data-value="50">50</li>
+					<li data-value="100">100</li>
+					<li data-value="200">200</li>
+					<li class="last">
+						<span>其他金额</span>
+						<input class="other-count">
+					</li>
+				</ul>
+				<div style="font-size:16px;margin-bottom:10px;">支付方式</div>
+				<div class="pay-method">
+					<ul class="pay-tabs">
+						<li class="current">平台支付</li>
+						<!-- <li>借记卡</li>
+						<li>信用卡</li> -->
+					</ul>
+					<div class="pay-content">
+						<div class="third-content">
+							<h5>平台支付</h5>
+							<ul class="list">
+								<li data-name="微信" data-channel="wx_pub"><img src="/static/img/wx_pay.png"></li>
+								<!-- <li>支付宝支付</li> -->
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="text-right"><button id="submit-btn" class="btn btn-primary">立即充值</button></div>
+				<input type="hidden" id="amount" name="amount">
+				<input type="hidden" id="pay_method" name="pay_method">
+				<input type="hidden" id="channel" name="channel" type="hidden" value="wx_pub">
+				<input type="hidden" id="charge_type" name="charge_type" value="充值">
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{static(filename='scripts/charge.js')}}"></script>
+{% endblock %}

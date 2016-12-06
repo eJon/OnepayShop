@@ -1,0 +1,60 @@
+<div class="state-two clearfix">
+	<div class="product-img text-center pull-left">
+		<img src="{{period.product.thumbnail}}">
+	</div>
+	<div class="product-kj pull-left">
+		<h3 class="title">{{period.product.title}}</h3>
+		<div class="kj-info">
+			<div class="title text-center">揭晓倒计时</div>
+			<div class="pro-number text-center">期号：{{period.number}}</div>
+			<div class="hide diff-now text-center" data-now="{{count_now_time}}" data-finish="{{period.kj_time.strftime('%Y/%m/%d %H:%M:%S')}}"></div>
+			<div class="down-count kj-number text-center"></div>
+		</div>
+	</div>
+	
+	
+	<div class="my-code pull-left">
+		{% if current_user.id %}
+		{% if user_join_record %}
+		<div class="join-info">
+			<span>您参与了： {{user_join_record.count}}人次</span>
+			<span>夺宝号码： {{user_join_record.num | truncate(56,true)}} </span>
+			<a class="view-num" href="javascript:void(0)" data-num="{{user_join_record.num}}">查看所有号码</a>
+		</div>
+		{% else %}
+		<div>您还没有参与本次夺宝！</div>
+		{% endif %}
+		{% else %}
+		<div class="no-login text-center">
+			<a href="{{ url_for_security('login') }}?next={{url_for('period_detail',pid=period.id)}}">请登陆</a><span>,查看你的夺宝号码</span>
+		</div> 
+		{% endif %}
+	</div> 
+	<ul class="kj-rule pull-left">
+		<div style="font-size:16px;">我们有严谨的幸运号码计算规则，保证公平公正公开</div>
+		<div style="font-weight: bold;margin:5px 0">为什么会进行倒计时？</div>
+		<div style="margin-bottom:10px;">为保证公平公正公开，正等待一小段时间，取最近一期中国福利彩票“老时时彩”的开奖结果。</div>
+		<li class="lucky-num"><span>?</span><br><span>本期幸运号码</span></li>
+		<li class="operator">=(</li>
+		<li class="time-sum"><span><strong>{{(period.kj_count | string)[:-2]}}</strong></span><br><span>50个时间求和</span>
+			<div class="tips">
+				<span>商品的最后一个号码分配完毕 公示该分配时间点前本站全部商品的<strong>最后50个参与时间</strong>并求和</span>
+			</div>
+		</li>
+		<li class="operator">+</li>
+		<li class="ssc-num"><span><strong>？</strong></span><br><span>时时彩数据</span>
+			<div class="tips">
+				{% if period.issue_ssc != 0 %}
+				取最近一期“老时时彩” ({{(period.issue_ssc | string)[:-2]}}期) 开奖结果
+				<a target="_blank" class="link-color" href="http://chart.cp.360.cn/kaijiang/ssccq/?r_a=qmeU7n"> 去查验</a>
+				{% else %}
+				抱歉，老时时彩{{(period.issue_ssc | string)[:-2]}}期 开奖数据获取失败
+				{% endif %}
+			</div>
+		</li>
+		<li class="operator">)%</li>
+		<li class="nomal"><span><strong>{{period.total_count}}</strong></span><br><span>该商品总需人次</span></li>
+		<li class="operator">+</li>
+		<li class="nomal"><span><strong>10000001</strong></span><br><span>原始数</span></li>
+	</ul>
+</div>

@@ -1,0 +1,66 @@
+<div class="state-two clearfix">
+	<div class="product-img text-center pull-left">
+		<img src="{{period.product.thumbnail}}">
+	</div>
+	<div class="product-kj pull-left">
+		<h3 class="title">{{period.product.title}}</h3>
+		<div class="kj-info">
+			<div class="title text-center">幸运号码</div>
+			<div class="pro-number text-center">期号：{{period.number}}</div>
+			<div class="kj-number text-center">{{period.kj_num}}</div>
+		</div>
+	</div>
+
+	<div class="my-code pull-left">
+		{% if current_user.id %}
+		{% if user_join_record %}
+		<div class="join-info">
+			<span>您参与了： {{user_join_record.count}}人次</span>
+			<span>夺宝号码： {{user_join_record.num | truncate(56,true)}} </span>
+			<a class="view-num" href="javascript:void(0)" data-num="{{user_join_record.num}}">查看所有号码</a>
+		</div>
+		{% else %}
+		<div>您还没有参与本次夺宝！</div>
+		{% endif %}
+		{% else %}
+		<div class="no-login text-center">
+			<a href="{{ url_for_security('login') }}?next={{url_for('period_detail',pid=period.id)}}">请登陆</a><span>,查看你的夺宝号码</span>
+		</div> 
+		{% endif %}
+	</div>
+	<ul class="zj-user pull-left">
+		<li class="user-avatar pull-left"><img src="{{period.zj_user.avatar}}"></li>
+		<li>
+			<div>恭喜 <a href="">{{period.zj_user.name}}</a> 获得了本期商品</div>
+			<div>用户ID：<strong>{{100000 + period.zj_user.id}}</strong> (ID为用户唯一不变标识)</div>
+			<div>揭晓时间：<strong>{{period.kj_time}}</strong></div>
+		</li>
+		<li class="pull-right">
+			<div>商品获得者本期总共参与了{{zj_user_join_record.count}}人次</div>
+			<div>Ta的中奖号码： {{period.kj_num}} <a class="view-num" data-zj="{{period.kj_num}}" data-num="{{zj_user_join_record.num}}" href="javascript:void(0);">Ta的所有号码</a></div>
+		</li>
+	</ul>
+	<ul class="kj-rule pull-left">
+		<li class="lucky-num"><span>{{period.kj_num}}</span><br><span>本期幸运号码</span></li>
+		<li class="operator">=(</li>
+		<li class="time-sum"><span><strong>{{(period.kj_count | string)[:-2]}}</strong></span><br><span>50个时间求和</span>
+			<div class="tips">
+				商品的最后一个号码分配完毕 公示该分配时间点前本站全部商品的<strong>最后50个参与时间</strong>并求和
+			</div>
+		</li>
+		<li class="operator">+</li>
+		<li class="ssc-num"><span><strong>{{(period.kj_ssc | string)[:-2]}}</strong></span><br><span>时时彩数据</span>
+			<div class="tips">
+				{% if period.kj_ssc != 0  %}
+				取最近一期“老时时彩” ({{(period.issue_ssc | string)[:-2]}}期)开奖结果 <a target="_blank" class="link-color" href="http://chart.cp.360.cn/kaijiang/ssccq/?r_a=qmeU7n"> 去查验</a>
+				{% else %}
+				抱歉，老时时彩{{(period.issue_ssc | string)[:-2]}}期 开奖数据获取失败
+				{% endif %}
+			</div>
+		</li>
+		<li class="operator">)%</li>
+		<li class="nomal"><span><strong>{{period.total_count}}</strong></span><br><span>该商品总需人次</span></li>
+		<li class="operator">+</li>
+		<li class="nomal"><span><strong>10000001</strong></span><br><span>原始数</span></li>
+	</ul>
+</div>

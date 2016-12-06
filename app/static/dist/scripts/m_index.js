@@ -1,0 +1,1 @@
+require(["jquery"],function(e){e(".toggle-cate").on("click",function(){var i=e(".cate-list");e(this);"none"==i.css("display")?i.show():i.hide()})});

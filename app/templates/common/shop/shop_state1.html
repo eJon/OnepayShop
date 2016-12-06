@@ -1,0 +1,69 @@
+<div class="state-one clearfix">
+	<div class="product-img text-center pull-left">
+		<img src="{{period.product.thumbnail}}">
+	</div>
+	<div class="product-info pull-left">
+		<div class="title">{{period.product.title}}</div>
+		{% if period.product.product_type %}
+		<div style="font-size:12px;font-weight:bold" class="red-color text-center">【该商品仅限于在{{period.product.seller.name}}兑换或使用】</div>
+		{% endif %}
+		<div class="">总需：<span>{{period.total_count}}</span>人次</div>
+		<div class="sell-progress">
+			{% set pecent = period.join_count*100 / period.total_count %}
+			<span class="orange" style="width:{{pecent}}%"></span>
+		</div>
+		<div class="describe-info clearfix">
+			<span>参与：{{period.join_count}}人次</span>
+			{% set left=period.total_count- period.join_count %}
+			<span class="pull-right">剩余：{{left}}人次</span>
+		</div>
+		<div class="join-desc text-center">
+			<em>{{period.join_count}}</em>人次已参与，赶快去参加吧！剩余<strong>{{left}}</strong>人次
+		</div>
+
+		<form action="/order" method="post">
+			<div class="join-select text-center">
+				<span>我要参与：</span>
+				<input type="hidden" value="{{period.product.title}}" name="title">
+				<input type="hidden" value="{{period.number}}" name="number">
+				<input type="hidden" value="{{period.total_count}}" name="total_count">
+				<input type="hidden" value="{{period.id}}" name="pid">
+				<a class="minus" href="javascript:void(0);"><span class="glyphicon glyphicon-minus"></span></a>
+				<input type="type" value="1" name="amount">
+				<a class="plus" href="javascript:void(0);" data-max="{{left}}"><span class="glyphicon glyphicon-plus"></span></a>
+				<span style="margin-left:10px;">人次</span>
+				<span class="join-tips">最多可参与{{left}}人次</span>
+			</div>
+			
+			<div class="text-center">
+
+				<button  class="btn btn-primary" >立即夺宝</button>
+			</div>
+		</form>
+
+
+		<div class="shareto">
+			<span class="jiathis_txt">分享到：</span>
+			<a class="share-to-weibo" href="javascript:void(0);"><img src="{{url_for('static',filename='img/weibo.png')}}"></a>
+			<a class="share-to-qq" href="javascript:void(0);"><img src="{{url_for('static',filename='img/qq.png')}}"></a>
+		</div>
+	</div>
+	<div class="my-code pull-left">
+		{% if current_user.id %}
+		{% if user_join_record %}
+		<div class="join-info">
+			<span>您参与了： {{user_join_record.count}}人次</span>
+			<span>夺宝号码： {{user_join_record.num | truncate(56,true)}} </span>
+			<a class="view-num" href="javascript:void(0)" data-num="{{user_join_record.num}}">查看所有号码</a>
+		</div>
+		{% else %}
+		<div>您还没有参与本次夺宝！</div>
+		{% endif %}
+		{% else %}
+		<div class="no-login text-center">
+			<a href="{{ url_for_security('login') }}?next={{url_for('period_detail',pid=period.id)}}">请登陆</a><span>,查看你的夺宝号码</span>
+		</div> 
+		{% endif %}
+	</div>
+</div>
+

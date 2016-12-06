@@ -1,0 +1,45 @@
+{% for item in periods %}
+
+<div class="col-md-3 col-sm-4 col-xs-6">
+	<div class="announced-item">
+		<div class="img-link">
+			<a href="{{url_for('period_detail',pid=item.id)}}"><img src="{{item.product.thumbnail}}"></a>
+		</div>
+		<div class="item-title"><a href="{{url_for('period_detail',pid=item.id)}}">{{item.product.title}}</a></div>
+		<div class="sell-info">总需：{{item.total_count}}人次</div>
+		<div class="period-info">期号：{{item.number}}</div>
+		<div class="result clearfix">
+			<ul class="count-down">
+				<li class="count-title"><span class="glyphicon glyphicon-time"></span>揭晓倒计时</li>
+				<li class="count-num" data-finish="{{item.kj_time.strftime('%Y/%m/%d %H:%M:%S')}}" data-now="{{count_now_time}}">
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% for item in winrecords %}
+<div class="col-md-3 col-sm-4 col-xs-6">
+	<div class="announced-item">
+		<div class="img-link">
+			<a href="{{url_for('period_detail',pid=item.period.id)}}"><img src="{{item.period.product.thumbnail}}"></a>
+		</div>
+		<div class="item-title"><a href="{{url_for('period_detail',pid=item.period.id)}}">{{item.period.product.title}}</a></div>
+		<div class="sell-info">总需：{{item.period.total_count}}人次</div>
+		<div class="period-info">期号：{{item.period.number}}</div>
+		<div class="result clearfix">
+			<div class="user-avatar pull-left">
+				<a href=""><img src=""></a>
+			</div>
+			<ul class="result-info">
+				<li>恭喜 <a href="">{{item.zj_user.name}}</a></li>
+				<li>幸运号码： <strong>{{item.period.kj_num}}</strong></li>
+				<li>本期参与：<strong>{{item.join_count}}</strong>人次</li>
+				<li>揭晓时间：{{item.kj_time}}</li>
+				<li><a href="{{url_for('period_detail',pid=item.period.id)}}" class="btn btn-primary">查看详情</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+{% endfor %}

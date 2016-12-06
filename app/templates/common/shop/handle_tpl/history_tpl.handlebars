@@ -1,0 +1,29 @@
+<h3>开奖信息</h3>
+<div class="history-period">
+	<div class="numbers-select">
+		<a href="javascript:void(0)" class="left"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		<span class="number-show">期号：{{data.number}}</span>
+		<a href="javascript:void(0)" class="right"><span class="glyphicon glyphicon-chevron-right"></span></a>
+	</div>
+	<div class="kj-result">
+		{{#compare data.status 1}}
+		<div class="user-avatar">
+			<img src="{{data.zj_user.avatar}}">
+		</div>
+		<div class="user-name">
+			恭喜 <a href="/user/{{data.zj_user.id}}">{{data.zj_user.name}}</a>获得了<span class="red-color">{{data.product.title}}</span>
+		</div>
+		<hr>
+		<ul>
+			<li>用户ID：{{data.display_id}}(用户唯一不变标识)</li>
+			<li>幸运号码：<strong>{{data.kj_num}}</strong></li>
+			<li>揭晓时间：<span class="describe-info">{{data.kj_time}}</span></li>
+		</ul>
+		{{else}}
+		<div style="margin:10px 0 20px 0">该期即将揭晓....</div>
+		{{/compare}}
+		<div class="text-center">
+			<a href="/shop/{{data.id}}" class="btn btn-primary">查看详情</a>
+		</div>
+	</div>
+</div>

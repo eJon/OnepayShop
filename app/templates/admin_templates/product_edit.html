@@ -1,0 +1,93 @@
+{% extends "admin/models/base_forms.html" %}
+
+{% block extra_script %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='bower_components/requirejs/require.js')}}"></script>
+  <script src="{{ url_for('static', filename='scripts/ueditor/ueditor.config.js')}}"></script>
+  <script src="{{ url_for('static', filename='scripts/ueditor/ueditor.all.min.js')}}"></script>
+  <script src="{{ static(filename='scripts/qiniu_upload.js')}}"></script>
+  <script type="text/javascript">
+        require.config({
+        paths: {
+            "jquery": "http://cdn.bootcss.com/jquery/2.1.4/jquery.min",
+            "plupload": "{{ url_for('static',filename="bower_components/plupload/js/plupload.full.min") }}",
+            "qiniu": "{{ url_for('static',filename="bower_components/qiniu/dist/qiniu") }}"
+        },
+    });
+    </script>
+{% endblock %}
+
+
+{% block breadcrumbs %}
+ {{ super() }}
+ <li><span class="divider">/</span> <a href=".">编辑</a></li>
+{% endblock %}
+
+{% block extra_tabs %}
+  <li class="active"><a href=".">编辑</a></li>
+{% endblock %}
+
+{% block content %}
+  {% include "admin/includes/form_raw_id.html" %}
+  {% if form.errors %}
+    <div class="alert alert-block alert-error">
+      <a class="close" data-dismiss="alert" href="#">×</a>
+      <p>There were errors with your form submission</p>
+    </div>
+  {% endif %}
+  <form method="post" action="." class="edit form-horizontal" enctype="multipart/form-data">
+    <fieldset>
+      {% if csrf_token %}{# Support for flask-seasurf #}<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">{% endif %}
+      <legend>Edit {{ model_admin.get_display_name() }}</legend>
+      {% for field in form %}
+        {% if field.name == "content" %}
+		  <div class="control-group">
+            <label class="control-label" for="content">商品详情</label>
+            <div class="controls">
+                <textarea id="content" name="content" style="width:800px;height:240px;">{{ instance.content }}</textarea>
+                <script type="text/javascript">
+
+                    var ue = UE.getEditor('content',{
+                      serverUrl: "/upload/",
+                        //关闭elementPath
+                        elementPathEnabled:false,
+                        //默认的编辑区域高度
+                        initialFrameHeight:500,
+                        initialFrameWidth:775,
+                        //更多其他参数，请参考umeditor.config.js中的配置项
+                        autoClearinitialContent:false
+                    });
+                </script>
+            </div>
+          </div>
+        {% elif field.name == "thumbnail" %}
+        <div class="control-group">
+            <label class="control-label" for="thumbnail">缩略图</label>
+            <div class="controls">
+                <input class="span8 " id="thumbnail" name="thumbnail" type="text" value="{{ instance.thumbnail }}">
+                <a id="pickfiles" class="btn btn-primary">上传</a>
+                <div>
+                  <span>尺寸要求: 200x200~400x400像素的等比图片</span>
+                  <img style="max-width:80px" class="preview-img" src="{{ instance.thumbnail }}">
+                </div>
+            </div>
+        </div>    
+        {% else %}
+          {{ admin_field(field) }}
+        {% endif %}
+      {% endfor %}
+      {% block extra_form %}{% endblock %}
+      <div class="form-actions">
+        <button class="btn btn-primary" name="save" type="submit">Save</button>
+        <button class="btn" name="save_add" type="submit">Save and add new</button>
+        <button class="btn" name="save_edit" type="submit">Save and edit</button>
+        <a class="btn" href="{{ url_for(model_admin.get_url_name('index')) }}">Cancel</a>
+        <a class="btn btn-danger pull-right" href="{{ url_for(model_admin.get_url_name('delete'), id=instance.get_id()) }}">Delete</a>
+      </div>
+    </fieldset>
+  </form>
+{% endblock %}
+{% block scripts %}
+<script src="{{ static(filename='scripts/qiniu_upload.js')}}"></script>
+<script src="{{ static(filename='scripts/cps_link.js')}}"></script>
+{% endblock %}

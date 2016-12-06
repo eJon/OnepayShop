@@ -1,0 +1,69 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="user-center">
+	<div class="crumbs-back">
+		<div class="container">
+			<div class="crumbs">
+				<a href="{{url_for('home')}}">首页</a><span class="red-color"> > </span>
+				<span class="red-color">个人中心</span>
+
+			</div>
+			<div class="user-info clearfix">
+				<div class="avatar pull-left">
+					<img src="{{user.avatar}}">
+					{% if current_user.get_id() == user.id %}
+					<div id="edit-avatar" class="edit-avatar"><a href="javasript:void(0)">点击编辑头像</a></div>
+					{% endif %}
+				</div>
+				<ul class="info-list" data-id="{{user.id}}">
+					<li><span class="name">{{user.name}}</span></li>
+					{% if current_user.get_id() == user.id %}
+					<li><a class="link-color" href="/reset">修改密码</a></li>
+					<li><span>账户余额：<strong>{{user.balance}}</strong> 夺宝币</span></li>
+					<li><a target="_blank" class="btn btn-primary" href="">立即充值</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="relate-content">
+			<ul class="tabs">
+				<li >
+					<a href="{{url_for('home')}}">夺宝记录</a>
+				</li>
+				<li >
+					<a href="{{url_for('home',tab='zj')}}">中奖记录</a>
+				</li>
+
+				{% if current_user.get_id() == user.id %}
+	
+				<li >
+					<a href="{{url_for('home',tab='address')}}">收货地址</a>
+				</li>
+				{% endif %}
+			</ul>
+			<div class="tab-content">
+				{% if request.path == url_for('home') %}
+				{% include "user/join_records.html" %}
+				{% elif request.path == '/user_home?tab=zj' %}
+				{% include "user/lucky_records.html" %}
+				{% elif request.path == url_for('home',tab='address') %}
+				{% include "user/address.html" %}sdfgsdfgsdfgs
+				{% endif %}
+			</div>
+			<div style="color:#888;font-size:16px;margin-top:40px;display:none" class="text-center tips">已触到到尽头了!</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}
+{% block scripts %}
+{% if request.endpoint == url_for('home',tab='address') %}
+<script src="{{static(filename='scripts/user_address.js')}}"></script>
+{% else %}
+<script src="{{static(filename='scripts/user_home.js')}}"></script>
+<script src="{{static(filename='scripts/template.js')}}"></script>
+{% endif %}
+
+{% endblock %}

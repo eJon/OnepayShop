@@ -1,0 +1,31 @@
+{% extends 'frontend-base.html' %}
+
+{% block content %}
+<div class="home">
+	<div class="container">
+		<section class="hot-product">
+			<h3>最热商品</h3>
+			<div class="list clearfix">
+				{% for item in hot_products %}
+				{% include "common/product_item.html" %}
+				{% endfor %}
+			</div>
+		</section>
+		{% for category in categorys_list %}
+		<section>
+			<h3><a target="_blank" href="">{{category[0]}}</a></h3>
+			<div class="list clearfix">
+				{% for item in category[1] %}
+				{% include "common/product_item.html" %}
+				{% endfor %}
+			</div>
+		</section>
+		{% endfor %}
+		<!-- <section class="share">
+			<h3>晒单分享</h3>
+		</section> -->
+
+	</div>
+	{% include 'footer.html' %}
+</div>
+{% endblock %}

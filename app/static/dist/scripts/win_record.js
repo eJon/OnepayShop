@@ -1,0 +1,1 @@
+require(["jquery"],function(e){e(document).ready(function(){e(".get_address").on("click",function(){var a=e(this).data("id");e.get("/get_zj_user_address/"+a,function(a,n){console.log(a,n),"ok"==a.message?(e("#name").val(a.name),e("#tel").val(a.tel),e("#address").val(a.whole)):alert(a.message)})})})});

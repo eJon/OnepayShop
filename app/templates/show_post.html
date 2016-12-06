@@ -1,0 +1,57 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+  <div class="{% if not g.is_mobile %}container{% else %}mobile{% endif %}">
+    <div class="show-post {% if g.is_mobile %}m-show-post fix-fixed{% endif %}">
+        {% if not g.is_mobile %}
+        <h3>晒单分享</h3>
+        {% else %}
+        <div class="user-head-tips">
+            <span class="glyphicon glyphicon-chevron-left go-back "></span>
+            <span>晒单分享</span>
+        </div>
+        {% endif %}
+        <div class="post-content">
+        <form method="post">
+          <div class="form-filed hide">
+            <input name="thumbnail" {% if show %} value="{{ show.thumbnail }}"{% endif %}>
+            <input name="product" value="{% if show %}{{ show.product.id }}{% else %}{{proid}}{% endif %}" >
+            <input name="pid" value="{% if show %}{{ show.pid }}{% else %}{{ pid }}{% endif %}">
+          </div>
+          <input class="show-title" name="title" {% if show %} value="{{ show.title }}"{% endif %} placeholder="晒单标题">
+          <div class="img-box">
+            <ul class="img-preview-list">
+              {% for img in imgs %}
+              <li style="background-image:url({{img}}!list)" data-url="{{img}}">
+                <span style="display:block" class="glyphicon success glyphicon-ok"></span>
+                <span style="display:block" class="set-cover show" data-url="{{img}}">{{'封面' if show.thumbnail == img else '设为封面'}}</span>
+                <span class="glyphicon remove glyphicon-remove"></span>
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="img-select">
+                <button id="pickfiles" class="btn btn-info">点击选择图片</button>
+                <div class="tips">晒单最少需要<strong>2</strong>张，最多支持<strong>4</strong>张图片的上传,支持jpg/jpeg/png格式的图片</div>
+                <button disabled="disabled" id="up-imgs" class="btn btn-info">上传</button>
+            </div>
+          </div>
+          <div class="text-box">
+            <textarea placeholder="此刻的心情" name="content">{% if show %} {{ content_text }}{% endif %}</textarea>
+          </div>
+          <div class="submit-btn text-center">
+            {% if not g.is_mobile %}
+            <button class="btn btn-primary" type="submit">晒单分享</button>
+            {% else %}
+            <div class="bottom-option">
+                <button class="weui_btn weui_btn_primary bottom-btn" type="submit">确定晒单</button>
+            </div>
+            {% endif %}
+          </div>
+        </form>
+        </div>
+    </div>
+  </div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{static(filename='scripts/show_post.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="pay">
+	<div class="crumbs-back">
+		<div class="container">
+			<div class="db-step">
+				<ul>
+					<li class="active"><i>1</i><span>选择商品</span></li><li class="active"><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li class="active"><i>2</i><span>支付订单</span></li><li><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li><i>3</i><span>获得号码，等待揭晓</span></li><li><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li><i>4</i><span>揭晓幸运号码</span></li><li><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li><i>5</i><span>商品派发</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+
+		{% set balance_enough = current_user.balance - amount %}
+		<form id="post-form" action="/pay" method="post">
+			<table class="table">
+				<thead>
+				    <tr>
+				        <th class="t-left">商品名称</th>
+				        <th>商品期号</th>
+				        <th>总需人次</th>
+				        <th>参与人次</th>
+				        <th>小计</th>
+				    </tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="{{url_for('period_detail',pid=pid)}}" class="a3">{{title}}</a></td>
+					    <td>{{number}}</td>
+					    <td>{{total_count}}人次</td>
+					    <td>{{amount}}人次</td>
+					    <td class="red-color">{{amount}}夺宝币</td>
+					</tr>
+					<tr>
+						<td colspan="5" align="right">支付金额：<big class="red-color">￥{{amount}}</big> 元</td>
+					</tr>
+					<tr>
+						<td colspan="5" >
+							<div class="pay-method">
+								<ul class="pay-tabs">
+
+									<li onclick="switch_tab(this)" name="balance" {{ "class=current" if balance_enough >= 0 }}>余额支付</li>
+									<li onclick="switch_tab(this)" name="third" {{ "class=current" if balance_enough < 0 }}>平台支付</li>
+
+								</ul>
+								<div class="pay-content tab-content">
+
+									<div id="balance-content" class="balance-content" {{ "style=display:none" if balance_enough < 0 }}>
+										<h5>余额支付</h5>
+										<div onclick="select_pay(this)" name="余额" data-action="/pay/handler"  class="balance"><big>{{current_user.balance}}</big> 夺宝币可用</div>
+									</div>
+									<div id="third-content" class="third-content" {{ "style=display:none" if balance_enough >= 0 }}>
+										<h5>平台支付</h5>
+										<ul class="list">
+											<li onclick="select_pay(this)" name="微信" data-action="/charge" channel="wx_pub"><img src="/static/img/wx_pay.png"></li>
+										</ul>
+									</div>
+
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="text-right">
+				<input id="pid" value="{{pid}}" name="pid" type="hidden">
+				<input id="amount" value="{{amount}}" name="amount" type="hidden">
+
+				<input id="pay_method" name="pay_method" type="hidden" {{ "value=余额" if balance_enough >= 0 }}>
+
+				<input id="channel" name="channel" type="hidden">
+				<input id="charge_type" name="charge_type" type="hidden" value="购买">
+				<button id="submit-btn"  class="btn btn-primary">提交订单</button>
+			</div>
+		</form>
+
+	    <div class="pay-readme">
+	    	<h3>付款遇到问题</h3>
+	    	<p>1、如您未开通网上银行，即可以使用储蓄卡快捷支付轻松完成付款；</p>
+			<p>2、如果您没有网银，可以使用银联在线支付，银联有支持无需开通网银的快捷支付和储值卡支付；</p>
+			<p>3、如果您有财付通或快钱、手机支付账户，可将款项先充入相应账户内，然后使用账户余额进行一次性支付；</p>
+			<p>4、如果银行卡已经扣款，但您的账户中没有显示，有可能因为网络原因导致，将在第二个工作日恢复。</p>
+	    </div>
+	</div>
+	<script type="text/javascript">
+		function switch_tab(target){
+			console.log(target);
+			var balance_dom = document.getElementById('balance-content'),
+				third_dom = document.getElementById('third-content');
+			balance_dom.style.display = 'none';
+			third_dom.style.display = 'none';
+			if(target.getAttribute('name') == 'balance'){
+				var bn = Number('{{ balance_enough }}');
+				if(bn.toString() != 'NaN' && bn < 0){
+					var balance_select = document.getElementsByName('余额')[0];
+					balance_select.style.border = '1px dashed #ddd';
+					balance_select.style.cursor = 'initial';
+				}
+				balance_dom.style.display = 'block';
+				if(target.className != 'current'){
+					target.className = 'current';
+					document.getElementsByName('third')[0].className = '';
+				}
+			}else{
+				third_dom.style.display = 'block';
+				if(target.className != 'current'){
+					target.className = 'current';
+					document.getElementsByName('balance')[0].className = '';
+				}
+			}
+		}
+		function select_pay(target){
+			var bn = Number('{{ balance_enough }}');
+			if(target.getAttribute('name') == '余额' && bn.toString() != 'NaN'){
+				if(bn < 0){
+					return ;
+				}
+			}
+			pay_select_init();
+			target.style.border = '1px solid #c43926';
+			var channel = target.getAttribute('channel');
+			document.getElementById('post-form').setAttribute('action',target.getAttribute('data-action'));
+			document.getElementById('pay_method').setAttribute('value',target.getAttribute('name'));
+			document.getElementById('channel').setAttribute('value',channel);
+		}
+		function pay_select_init(){
+			document.getElementsByName('余额')[0].style.border = '1px dashed #ddd';
+			document.getElementsByName('微信')[0].style.border = '1px dashed #ddd';
+		}
+	</script>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{static(filename='scripts/order.js')}}"></script>
+{% endblock %}

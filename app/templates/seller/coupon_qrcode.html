@@ -1,0 +1,37 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="coupon-qrcode">
+	<div class="crumbs-back">
+		<div class="container">
+			<div class="crumbs">
+				<a class="" href="{{url_for('seller_index')}}">商家</a><span class="red-color"> > </span>
+				<a href="{{url_for('seller_page',seller_id=1)}}">优惠券</a><span class="red-color"> > </span>
+				<span class="red-color">优惠券二维码(优惠码)</span>
+			</div>
+		</div>
+	</div>
+	<div class="container content">
+		<h3 class="text-center">优惠券二维码</h3>
+		<div class="coupon-back" style="margin:0 auto">
+			<div class="clearfix">
+				<div class="left pull-left">
+					<div class="name">{{coupon.name}}</div>
+					<div class="value"><span class="cny">￥</span ><span class="count">{{coupon.amount}}</span></div>
+				</div>
+				<div class="sell-name pull-right">{{coupon.seller.name}}</div>
+			</div>
+			<div class="product-name text-center">仅限于参与{{coupon.product.title}}</div>
+			<button data-id="{{coupon.id}}" class="btn btn-primary get-qrcode">生成优惠码</button>
+		</div>
+		<ul class="qrcode-list clearfix" data-product="{{coupon.product.title}}" data-coupon="{{coupon.name}}">
+			{% for code in coupon_code %}
+			<li><a data-pic="{{code.qr_picture}}" class="link-color" href="javascript:void(0);"><span>{{coupon.name}}--{{code.code}}</span></a></li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+{% include 'seller/modal_qrcode.html' %}
+{% endblock %}
+{% block scripts %}
+<script src="{{static(filename='scripts/coupon_qrcode.js')}}"></script>
+{% endblock %}

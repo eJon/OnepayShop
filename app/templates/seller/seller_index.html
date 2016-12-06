@@ -1,0 +1,21 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="seller-index">
+	<div class="crumbs-back">
+		<div class="container">
+			<div class="crumbs">
+				<a class="" href="{{url_for('my_home')}}">个人中心</a><span class="red-color"> > </span>
+				<span class="red-color">商家管理</span>
+			</div>
+		</div>
+	</div>
+	<div class="container content">
+		<h3 class="text-center">商家管理</h3>
+		<ul class="seller-list">
+			{% for seller in sellers %}
+			<li><a class="link-color" href="{{url_for('seller_page',seller_id=seller.seller.id)}}">{{seller.seller.name}}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock %}

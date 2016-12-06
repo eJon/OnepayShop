@@ -1,0 +1,12 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+*.db
+*.DS_Store
+__pycache__/
+local_settings.py
+venv/*
+node_modules/*
+.idea/*
+config_local.py

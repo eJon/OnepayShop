@@ -1,0 +1,62 @@
+{% extends 'frontend-base.html' %}
+{% from '/common/pagination.html' import render_pagination %}
+{% block content %}
+<div class="pro-list">
+	<div class="crumbs-back">
+		<div class="container">
+			<div class="crumbs">
+				<a href="{{url_for('my_home')}}">首页</a><span class="red-color"> > </span>
+				{% if current_cate %}
+				<a href="{{url_for('product_all')}}">所有商品</a><span class="red-color"> > </span>
+				<span class="red-color">{{current_cate.name}}</span>
+				{% else %}
+				<span class="red-color">所有商品</span>
+				{% endif %}
+			</div>
+			<div class="categorys">
+				<span class="cate-text">所有分类：</span>
+				<ul class="cate-list">
+					{% if not current_cate %}
+					<li><a style="color:#c43926" href="{{url_for('product_all')}}">所有商品</a></li>
+					{% else %}
+					<li><a href="{{url_for('product_all')}}">所有商品</a></li>
+					{% endif %}
+					{% for cate in g.categorys %}
+					{% if current_cate and current_cate.id==cate.id %}
+					<li><a style="color:#c43926" href="{{url_for('product_all',cid=cate.id)}}">{{cate.name}}</a></li>
+					{% else %}
+					<li><a href="{{url_for('product_all',cid=cate.id)}}">{{cate.name}}</a></li>
+					{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<ul class="sorts">
+			<span>排序：</span>
+			<li {{ "class=active" if not order or order=='hot' }}><a href="{{url_for('product_all',order='hot',cid=cid)}}">人气商品</a></li>
+			<li {{ "class=active" if order=='left' }}><a href="{{url_for('product_all',order='left',cid=cid)}}">剩余人次</a></li>
+			<li {{ "class=active" if order=='new' }}><a href="{{url_for('product_all',order='new',cid=cid)}}">最新上架</a></li>
+			<li {{ "class=active" if order=='price_up' }}>
+				<a href="{{url_for('product_all',order='price_up',cid=cid)}}">总需人次</a>
+				<span class="glyphicon glyphicon-arrow-up"></span>
+			</li>
+			<li {{ "class=active" if order=='price_down' }}>
+				<a href="{{url_for('product_all',order='price_down',cid=cid)}}">总需人次</a>
+				<span class="glyphicon glyphicon-arrow-down"></span>
+			</li>
+		</ul>
+		<div class="row list">
+			{% for item in periods %}
+			{% include 'common/list_item.html' %}
+			{% endfor %}
+		</div>
+		
+	</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{static(filename='scripts/list.js')}}"></script>
+{% endblock %}

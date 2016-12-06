@@ -1,0 +1,90 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="{% if not g.is_mobile %}container{% else %}mobile{% endif %}">
+    <div class="show-detail {% if g.is_mobile %}m-show-detail fix-fixed{% endif %}">
+        {% if not g.is_mobile %}
+        <h3 class="header">晒单详情</h3>
+        {% else %}
+        <div class="user-head-tips">
+            <span>晒单详情</span>
+        </div>
+        {% endif %}
+        <div class="show-content">
+            <div class="show-info">
+                <h3>{{ show.title }}</h3>
+                <div class="time">
+                    <span>作者：</span><a href="{{ url_for('user_home', uid=show.owner.id) }}">{{show.owner.name}}</a>
+                    <span>晒单时间：{{ show.created_datetime }}</span>
+                </div>
+            </div>
+            {% if show.owner.id == current_user.id and not show.passed %}
+            <a style="margin:5px 15px 0 0;font-size:14px;" class="pull-right link-color" href="{{url_for('show_edit',show_id=show.id)}}">编辑</a>
+            {% endif %}
+            <div class="relate-info">
+                {% if not g.is_mobile %}
+                <table class="table">
+                    <tbody>
+                    <tr>
+                      <td class="kj-info">
+                        <a class="pull-left" href="{{ url_for('user_home', uid=show['period']['zj_user']['id']) }}"><img
+                            src="{{ show['period']['zj_user']['avatar'] }}"></a>
+                        <ul class="list pull-left">
+                          <li>获得者：<a
+                              href="{{ url_for('user_home', uid=show['period']['zj_user']['id']) }}">{{ show['period']['zj_user']['name'] }}</a>
+                          </li>
+                          <li>总共参与：<strong>{{ join_count }}</strong>人次</li>
+                          <li>幸运号码：<strong>{{ show['period']['kj_num'] }}</strong></li>
+                          <li>揭晓时间：{{ show['period']['kj_time'] }}</li>
+                        </ul>
+                      </td>
+                      <td class="period-info">
+                        <a class="pull-left" href="{{ url_for('period_detail',pid=show.period.id) }}"><img
+                            src="{{ show.period.product.thumbnail }}"></a>
+                        <ul class="list pull-left">
+                          <li><a href="{{ url_for('period_detail',pid=show.period.id) }}">{{ show.period.product.title }}</a></li>
+                          <li>期号：{{ show['period']['number'] }}</li>
+                          <li>总需：{{show['period']['total_count'] }}人次</li>
+                          <li><a href="{{url_for('period_detail',pid=new_pid)}}">最新一期正在进行中...</a></li>
+                        </ul>
+                      </td>
+                    </tr>
+                    </tbody>
+                </table>
+                {% else %}
+                <table class="table">
+                    <tbody>
+                        <tr class="kj-info">
+                            <td colspan="2">
+                                <ul class="list">
+                                    <li>获得者：<a
+                                        href="{{ url_for('user_home', uid=show['period']['zj_user']['id']) }}">{{ show['period']['zj_user']['name'] }}</a>
+                                    </li>
+                                    <li>总共参与：<strong>{{join_count}}</strong>人次</li>
+                                    <li>幸运号码：<strong>{{ show['period']['kj_num'] }}</strong></li>
+                                    <li>揭晓时间：{{ show['period']['kj_time'] }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="period-info">
+                            <td class="text-center col-img">
+                                <a href="{{ url_for('period_detail',pid=show.period.id) }}"><img src="{{ show.period.product.thumbnail }}"></a>
+                            </td>
+                            <td>
+                                <ul class="list pull-left">
+                                    <li><a href="{{ url_for('period_detail',pid=show.period.id) }}">{{ show.period.product.title }}</a></li>
+                                    <li>期号：{{ show['period']['number'] }}</li>
+                                    <li>总需：{{show['period']['total_count'] }}人次</li>
+                                    <li class="last"><a href="{{url_for('period_detail',pid=new_pid)}}">最新一期正在进行中...</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+            <div class="content">{{ show.content | safe }}</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

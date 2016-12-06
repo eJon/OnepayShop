@@ -1,0 +1,20 @@
+<div class="col-md-3 col-sm-4 col-xs-6 fix-padding">
+	<div class="announced-item">
+		<div class="img-link">
+			<a href="{{url_for('period_detail',pid=item.period.id)}}"><img src="{{item.period.product.thumbnail}}"></a>
+		</div>
+		<div class="item-title"><a href="{{url_for('period_detail',pid=item.period.id)}}">{{item.period.product.title}}</a></div>
+		<div class="sell-info">总需：{{item.period.total_count}}人次</div>
+		<div class="period-info">期号：{{item.period.number}}</div>
+		<div class="result">
+			<ul class="result-info">
+				<li>幸运号码： <strong>{{item.period.kj_num}}</strong></li>
+				<li>本期参与：<strong>{{item.count}}</strong>人次</li>
+				<li>揭晓时间：{{item.period.kj_time}}</li>
+			</ul>
+		</div>
+		{% if not item.period.has_show and user.id == current_user.id %}
+		<div class="show-back"><a target="_blank" href="{{url_for('show_post',pid=item.period.id)}}"><span class="glyphicon glyphicon-camera"></span><span>晒单</span></a></div>
+		{% endif %}
+	</div>
+</div>

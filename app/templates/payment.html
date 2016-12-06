@@ -1,0 +1,25 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="payment">
+	<div class="container">
+		<div class="head-tips">
+			<h4>请您及时付款，以便订单尽快处理！订单号：<span id="charge_order" data-order="{{charge.order_number}}">{{charge.order_number}}</span></h4>
+			<div class="tips">请您在提交订单后1小时内付款，否则订单会自动取消。</div>
+		</div>
+		<div class="content">
+			<h3>微信支付</h3>
+			<div class="wx-qrcode text-center">
+				<div class="tips">扫一扫付款</div>
+				<div class="amount"><strong>￥{{charge.amount}}元</strong></div>
+				<div data-json="{{charge.charge_detail}}" id="qrcode" class="qr-img"></div>
+				<div>如果扫码支付成功后页面没有刷新,请主动刷新页面</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script src="{{static(filename='scripts/payment.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% extends 'frontend-base.html' %}
+{% block content %}
+{% if not g.is_mobile %}
+<div style="height: 80px"></div>
+{% else %}
+<div style="height: 15px"></div>
+{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-8">
+            <div class="inner">
+                {% if not g.is_wxpub %}
+                <form role="form" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+                    {{ login_user_form.hidden_tag() }}
+                    <div class="form-group">
+                        <label>邮箱</label>
+                        {% for error in login_user_form.email.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                        {{ login_user_form.email(class_="form-control", placeholder="邮箱") }}
+                    </div>
+                    <div class="form-group">
+                    <label>密码</label>
+                        {% for error in login_user_form.password.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                        {{ login_user_form.password(class_="form-control", placeholder="密码") }}
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>{{ login_user_form.remember}}记住我</label>
+                            <div style="float:right"><a href="/reset">忘记密码？</a></div>
+                        </div>
+                    </div>
+                    {{ render_field(login_user_form.next) }}
+                    <div class="form-group">
+                        <span> 还没有帐号？</span>  <a href="{{ url_for_security('register') }}" class="btn btn-primary">注册</a>
+                        <button type="submit" class="btn btn-success pull-right">登录</button>
+                    </div>
+                </form>
+                {% endif %}
+                {% if request.url.find('?next') > -1 %}
+                {% set target_param = '?' + request.url.split('?')[1] %}
+                {% else %}
+                {% set target_param = '' %}
+                {% endif %}
+                {% if g.is_mobile %}
+                <div class="red-color" style="font-size:12px;">温馨提示: 目前只有在微信内打开网站并且使用微信登陆才可使用微信支付</div>
+                {% endif %}
+                <div class="social-login text-center">
+                    {% if g.is_wxpub %}
+                    <span>微信登录</span>
+                    <a href="">
+                        <img src="/static/img/wechat.png">
+                    </a>
+                    {% else %}
+                    <span>联合登录</span>
+                    <a href="">
+                        <img src="/static/img/qq.png" title="腾讯qq">
+                    </a>
+                    <a href="">
+                        <img src="/static/img/weibo.png" title="新浪微博">
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block second_header %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

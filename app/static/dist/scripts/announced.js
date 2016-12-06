@@ -1,0 +1,1 @@
+require(["jquery","jquery-downcount"],function(n){var t=n(".count-down").find(".count-num");n.each(t,function(t){var o=n(this);o.downCount({finish:new Date(o.data("finish")).getTime(),now:1e3*parseInt(o.data("now"))},function(){o.find("span").text("0"),location.reload()})})});

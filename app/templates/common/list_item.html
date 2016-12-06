@@ -1,0 +1,31 @@
+<div class="col-md-3 col-sm-4 col-xs-6 product-container">
+	<div class="product-item">
+		<div class="img-link">
+			<a target="_blank" href=""><img src="{{item.product.thumbnail}}"></a>
+		</div>
+		<div class="item-title"><a target="_blank" href="">{{item.product.title}}</a></div>
+		<div class="sell-info describe-info">总需：{{item.total_count}}人次</div>
+		<div class="sell-progress">
+			{% set pecent = item.join_count*100 / item.total_count %}
+			<span class="orange" style="width:{{pecent}}%"></span>
+		</div>
+		<div class="join-info describe-info clearfix">
+			<span>参与：{{item.join_count}}人次</span>
+			{% set left=item.total_count- item.join_count %}
+			<span class="pull-right">剩余：{{left}}人次</span>
+		</div>
+		<form action="/order" method="post">
+			<div class="join-box text-center">
+				<div class="join-select text-center">
+					<span>我要参与：</span>
+					<input type="hidden" value="{{item.id}}" name="pid">
+					<a class="minus" href="javascript:void(0);"><span class="glyphicon glyphicon-minus"></span></a>
+					<input type="type" value="1" name="amount">
+					<a class="plus" href="javascript:void(0);" data-max="{{left}}"><span class="glyphicon glyphicon-plus"></span></a>
+					<span style="margin-left:10px;">人次</span>
+				</div>
+				<button type="submit" class="btn btn-primary db-btn">立即夺宝</a>
+			</div>
+		</form>
+	</div>
+</div>

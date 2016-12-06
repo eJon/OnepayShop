@@ -1,0 +1,14 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+  	<div class="announced">
+  		<div class="container">
+  			<h3 class="title">最近揭晓的所有商品</h3>
+  			<div class="row list clerfix">
+  				{% include "common/announced_item.html" %}
+  			</div>
+  		</div>
+  	</div>
+{% endblock  %}
+{% block scripts %}
+<script src="{{static(filename='scripts/announced.js')}}"></script>
+{% endblock %}

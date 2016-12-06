@@ -1,0 +1,69 @@
+{% extends 'frontend-base.html' %}
+
+{% block content %}
+{% include 'common/shop/modal_box.html' %}
+<div class="shop">
+	<div class="crumbs-back">
+		<div class="container">
+			<div class="crumbs">
+				<a href="{{url_for('my_home')}}">首页</a><span class="red-color"> > </span>
+				<a href="{{url_for('product_all')}}">全部商品</a><span class="red-color"> > </span>
+				<a href="{{url_for('product_all',cid=period.product.category.id)}}">{{period.product.category.name}}</a><span class="red-color"> > </span>
+				<span class="red-color" href="">{{period.product.title}}[期号：{{period.number}}]</span>
+			</div>
+		</div>
+	</div>
+	<div class="container content">
+		<div class="product-block pull-left">
+			{% if period.status==0 %}
+			{% include "common/shop/shop_state1.html" %}
+			{% elif period.status==1 %}
+			{% include "common/shop/shop_state2.html" %}
+			{% else %}
+			{% include "common/shop/shop_state3.html" %}
+			{% endif %}
+		</div>
+		{% if period.number > 100001 %}
+		{% set cur_no = period.number-1 %}
+		{% else %} 
+		{% set cur_no = 0 %}
+		{% endif %}
+		<div class="period-nh pull-left">
+			{% if period.status %}
+			{% include "common/shop/new_period.html" %}
+			{% else %}
+			<div style="display:none" class="text-center loading-tips"><img src="/static/img/load.gif"></div>
+			<div class="history-container" data-status="{{period.status}}" data-proid="{{period.product.id}}" no="{{cur_no}}" minno="100001"></div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="container">
+		<div class="product-relate">
+			<ul class="tabs">
+				{% if period.status==0 %}
+				<li class="current tab-detail">商品详情</li>
+				{% else %}
+				<li class="current tab-result">计算结果</li>
+				{% endif %}
+				<li class="tab-join">所有参与记录</li>
+				<li class="tab-show">晒单</li>
+			</ul>
+			<div class="product-content" data-pid="{{period.id}}" data-proid="{{period.product.id}}">
+				{% if period.status %}
+				{% include "common/shop/count_result.html" %}
+				{% else %}
+				<div class="product-detail">{{period.product.content |safe }}</div>
+				{% endif %}
+				<div  style="display:none" class="join-record"></div>
+				<div style="display:none" class="product-show clearfix"></div>
+			</div>
+		</div>
+		<div style="color:#888;font-size:16px;margin-top:40px;display:none" class="text-center load-tips">已触到到尽头了!</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{static(filename='scripts/shop.js')}}"></script>
+<script src="{{static(filename='scripts/shop_template.js')}}"></script>
+{% endblock %}

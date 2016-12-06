@@ -1,0 +1,17 @@
+<xml>
+    <ToUserName><![CDATA[{{ fromUser }}]]></ToUserName>
+    <FromUserName><![CDATA[{{ toUser }}]]></FromUserName>
+    <CreateTime>{{ createTime }}</CreateTime>
+    <MsgType><![CDATA[news]]></MsgType>
+    <ArticleCount>{{ periods.count() }}</ArticleCount>
+    <Articles>
+    {% for period in periods %}
+    <item>
+    <Title><![CDATA[{{ period.product.title }}]]></Title> 
+    <Description><![CDATA[{{period.product.seller.name}}{{period.product.title }}一元购]]></Description>
+    <PicUrl><![CDATA[{{ period.product.thumbnail }}]]></PicUrl>
+    <Url><![CDATA[{{ 'http://%s/wx_menu?target=%s' % (server_name,  "/shop/%d" % period.id) }}]]></Url>
+    </item>
+    {% endfor %}
+    </Articles>
+</xml>

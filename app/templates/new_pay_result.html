@@ -1,0 +1,100 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="pay">
+	<div class="crumbs-back">
+		<div class="container">
+			<div class="db-step">
+				<ul>
+					<li class="active"><i>1</i><span>选择商品</span></li><li class="active"><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li class="active"><i>2</i><span>支付订单</span></li><li class="active"><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li class="active"><i>3</i><span>获得号码，等待揭晓</span></li><li><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li><i>4</i><span>揭晓幸运号码</span></li><li><span class="glyphicon glyphicon-arrow-right"></span></li>
+					<li><i>5</i><span>商品派发</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+  		<div class="message">
+  			<div class="success">
+  				<div class="title text-center">
+                    {% if order_result.charge_type == '购买' %}
+                    {% if order_result.status %}
+                    <!-- 夺宝成功 -->
+                    <i class="glyphicon-back"><span class="glyphicon glyphicon-ok"></span></i>
+		  			<h1>恭喜您，参与成功！请等待系统为您揭晓！</h1>
+		  			<small><a href="{{url_for('my_home')}}">查看夺宝记录</a> <a href="{{url_for('home')}}">返回首页</a></small>
+                    {% else %}
+                    <!-- 夺宝失败 -->
+                    <i class="glyphicon-back" style="background:#c43926"><span class="glyphicon glyphicon-remove"></span></i>
+                    <h1>抱歉，参与失败,本期号码不足或已被抢光！</h1>
+                    <small><a href="{{url_for('home')}}">返回首页</a></small>
+                    <div><strong>您所支付的款项将在两个工作日内退回您的支付账户!</strong></div>
+                    {% endif %}
+                    {% elif order_result.charge_type == '充值' %}
+                    <i class="glyphicon-back"><span class="glyphicon glyphicon-ok"></span></i>
+                    <h1>恭喜您，充值成功！</h1>
+                    <small><a href="{{url_for('user_home',uid=current_user.id)}}">查看充值记录</a> <a href="{{url_for('home')}}">返回首页</a></small>
+                    {% endif %}
+	  			</div>
+  			</div>
+  			<div class="fault"></div>
+  		</div>
+  		<div class="order-info">
+            {% if order_result.charge_type == '购买' %}
+            {% if order_result.status %}
+  			<div>您成功参与了<span class="red-color">{{order_result.count}}</span>人次夺宝，信息如下：</div>
+            {% else %}
+            <div>您此次夺宝失败，信息如下：</div>
+            {% endif %}
+  			<table class="table">
+  				<thead>
+  				    <tr>
+  				    	<th>支付时间</th>
+                        <th>支付方式</th>
+                        <th>支付货币</th>
+  				        <th>参与商品</th>
+  				        <th>参与人次</th>
+  				    </tr>
+  				</thead>
+  				<tbody>
+  				    <tr>
+  				    	<td>{{order_result.created_datetime.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                        <td>{{order_result.pay_method}}</td>
+                        <td><strong>{{order_result.amount}}{{'夺宝币' if order_result.pay_method == '余额' else '元'}}</strong></td>
+  				        <td>
+                            <a href="{{url_for('period_detail',pid=order_result.period.id)}}">{{order_result.period.product.title}}</a>
+                            <span>第{{order_result.period.number}}期</span>
+                        </td>
+                        <td>{{order_result.count}}人次</td>
+  				    </tr>
+  				    <tr>
+  				    	<td colspan="5">获得号码：{{order_result.num | truncate(300,true)}}</td>
+  				    </tr>
+  				</tbody>
+  			</table>
+            {% elif order_result.charge_type == '充值' %}
+            <div>您成功充值了<span class="red-color">{{order_result.count}}</span>个夺宝币，信息如下：</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>支付时间</th>
+                            <th>支付方式</th>
+                            <th>支付货币</th>
+                            <th>获得夺宝币</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{order_result.created_datetime.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                            <td>{{order_result.pay_method}}</td>
+                            <td><strong>{{order_result.amount}}元</strong></td>
+                            <td>{{order_result.count}}个</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+  		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+<div class="count-result">
+	<div class="readme-text clearfix">
+		<div class="readme-left pull-left">
+			<h5>幸运号码</h5>
+			<h5>计算规则</h5>
+		</div>
+		<ul class="readme-list pull-left">
+			<li>
+				<span class="yuana">1</span>
+				商品的最后一个号码分配完毕后，将公示该分配时间点前本站全部商品的最后50个参与时间；
+			</li>
+			<li>
+				<span class="yuana">2</span>  
+				将这50个时间的数值进行求和（得出数值A）（每个时间按时、分、秒、毫秒的顺序组合，如20:15:25.362则为201525362）；
+			</li>
+			<li>
+				<span class="yuana">3</span> 为保证公平公正公开，系统还会等待一小段时间，取最近下一期中国福利彩票“老时时彩”的开奖结果（一个五位数值B）；
+			</li>
+			<li>
+				<span class="yuana">4</span> 
+				（数值A+数值B）除以该商品总需人次得到的余数 + 原始数 10000001，得到最终幸运号码，拥有该幸运号码者，直接获得该商品。
+			</li>
+			<li>
+				<span class="red-color">注：如遇福彩中心通讯故障，无法获取上述期数的中国福利彩票“老时时彩”开奖结果，则默认“老时时彩”开奖结果为0。敬请谅解....</span>
+			</li>							
+		</ul>
+	</div>
+	<div class="order-record">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>夺宝时间</th>
+					<th>夺宝用户</th>
+					<th>商品名称</th>
+					<th>商品期号</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					{% set end_time_format = (period.end_time.strftime('%Y-%m-%d %H:%M:%S.%f'))[:-3] %}
+					<td colspan="4" class="table-desc">截止该商品最后夺宝时间点 <strong>{{end_time_format}}</strong> 全站最后50条参与记录</td>
+				</tr>
+				{% for record in join_records %}
+				<tr>
+					{% set time_format = record.created_datetime[:-3] %}
+					<td>{{time_format}}<span style="margin:0 15px;" class="glyphicon red-color glyphicon-arrow-right"></span>{{record.time_number}}</td>
+					<td>{{record.owner.name}}</td>
+					<td>{{record.period.product.title}}</td>
+					<td>{{record.period.number}}</td>
+				</tr>
+				{% endfor %}
+				<tr class="result-row">
+					<td colspan="4">
+						<h5>计算结果</h5>
+						{% if period.status==1 %}
+						<ul>
+							<li>1、求和：{{period.kj_count | int}} (上面50条参与记录的时间取值相加)</li>
+							<li>2、老时时彩开奖号码： <b>?</b></li>
+							<li>3、求余：({{period.kj_count | int}} + <b>?</b>) % {{period.total_count}}(商品所需人次) = <b>?</b> (余数) </li>
+							<li>4、<b>?</b>	(余数) + 10000001 = <b>?</b></li>
+						</ul>
+						<div>幸运号码：<b>?</b></div>
+						{% else %}
+						<ul>
+							<li>1、求和：{{period.kj_count | int}} (上面50条参与记录的时间取值相加)</li>
+							<li>2、老时时彩开奖号码： {{period.kj_ssc | int}}</li>
+							{% set remainder=(period.kj_count+period.kj_ssc)%period.total_count %}
+							<li>3、求余：({{period.kj_count | int}} + {{period.kj_ssc | int}}) % {{period.total_count}}(商品所需人次) = {{remainder | int}} (余数) </li>
+							<li>4、{{remainder | int}}	(余数) + 10000001 ={{period.kj_num}}</li>
+						</ul>
+						<div>幸运号码：{{period.kj_num}}</div>
+						{% endif %}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

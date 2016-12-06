@@ -1,0 +1,35 @@
+<footer class="footer {% if not g.is_mobile %}footer-bg-color{% endif %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <ul class="some-links">
+                   
+                </ul>
+                <div class="contact-us">
+                    <div class="contact-title">联系我们</div>
+                    <ul class="contact-list">
+                        <li><span>邮箱:</span>{{g.configure.email}}</li>
+                        <li><span>QQ:</span>{{g.configure.qq}}</li>
+                        <li><span>电话:</span>{{ g.configure.tel }}</li>
+                        {% if g.is_mobile %}<li>微信公众号: xxxxx</li>{% endif %}
+                    </ul>
+                </div>
+                <div class="web-site-info">
+                    <div>© copyright 2016 爱寻帮. All rights reserved. 赣ICP备16004750号</div>
+                </div>
+            </div>
+            {% if not g.is_mobile %}
+            <div class="col-md-6">
+                <div class="qr-img text-right">
+                    <img src="/static/img/qrcode.jpg">
+                    {% if g.configure.give_db %}
+                    <div>微信扫码关注送1个夺宝币</div>
+                    {% else %}
+                    <div>微信扫码夺宝更方便</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,39 @@
+{{#each data}}
+<tr>
+	<td class="col-img"><a target="_blank" href="/shop/{{this.period.id}}"><img src="{{this.period.product.thumbnail}}"></a></td>
+	<td class="product-info">
+		<a class="link-color" target="_blank" href="/shop/{{this.period.id}}">{{this.period.product.title}}</a>
+		<div class="describe-info">总需：<span>{{this.period.total_count}}</span>人次</div>
+		{{#unless this.period.status}}
+		<div class="sell-progress">
+			<span class="orange" style="width:{{this.period.percent}}%"></span>
+		</div>
+		<div class="describe-info clearfix">
+			<span>参与：{{this.period.join_count}}人次</span>
+			<span class="pull-right">剩余：{{this.period.left}}人次</span>
+		</div>
+		{{/unless}}
+	</td>
+	<td>{{this.period.number}}</td>
+
+	<td>
+		{{#if this.period.status}}
+			{{#compare this.period.status 1 }}
+			已经揭晓
+			{{else}}正在揭晓
+			{{/compare}}
+		{{/if}}
+		{{#unless this.period.status}}正在进行{{/unless}}
+	</td>
+	<td>
+		<div>{{this.count}}人次</div>
+		{{#unless this.period.status}}
+		<div class="buy-more">
+			<a class="link-color" href="javascript:;">追加</a>
+		</div>
+		{{/unless}}
+	</td>
+	<td><a class="link-color" target="_blank" href="/shop/{{this.period.id}}">详情</a></td>
+</tr>
+{{/each}}
+

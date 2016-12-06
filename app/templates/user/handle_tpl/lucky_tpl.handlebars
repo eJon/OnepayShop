@@ -1,0 +1,22 @@
+{{#each data}}
+<div class="col-md-3 col-sm-4 col-xs-6 fix-padding">
+	<div class="announced-item">
+		<div class="img-link">
+			<a href="/shop/{{this.period.id}}"><img src="{{this.period.product.thumbnail}}"></a>
+		</div>
+		<div class="item-title"><a href="/shop/{{this.period.id}}">{{this.period.product.title}}</a></div>
+		<div class="sell-info">总需：{{this.period.total_count}}人次</div>
+		<div class="period-info">期号：{{this.period.number}}</div>
+		<div class="result">
+			<ul class="result-info">
+				<li>幸运号码： <strong>{{this.period.kj_num}}</strong></li>
+				<li>本期参与：<strong>{{this.count}}</strong>人次</li>
+				<li>揭晓时间：{{this.period.kj_time}}</li>
+			</ul>
+		</div>
+		{{#unless item.period.has_show }}
+		<div class="show-back"><a href="/show/post"><span class="glyphicon glyphicon-camera"></span><span>晒单</span></a></div>
+		{{/unless}}
+	</div>
+</div>
+{{/each}}

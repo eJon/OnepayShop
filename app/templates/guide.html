@@ -1,0 +1,52 @@
+{% extends 'frontend-base.html' %}
+{% block content %}
+<div class="{% if not g.is_mobile %}container {% else %}m-guide{% endif %} guide">
+    <div class="text-center red-color">
+        <h3 style="font-weight:bold">了解爱寻帮一元夺宝</h3>
+    </div>
+    <div class="">
+        <h4>选择夺宝商品</h4>
+        <img style="max-width:100%; margin-bottom:10px;" src="http://img.aixunbang.com/guide1.jpg">
+        <div class="">
+            <p class="">“爱寻帮夺宝众筹平台”以“众筹”模式为各类商品的销售提供的网络空间。在本平台，商品被平分成若干等份，支持者可以使用   夺宝币支持一份或多份，当等份全部售完后，由系统根据平台规则计算出最终获得商品的支持者。
+            </p>
+            <p>商品君由入驻一元夺宝众筹平台的发起方提供。</p>
+        </div>
+    </div>
+    <div class="">
+        <h4>3步操作</h4>
+        <img style="max-width:100%;" src="http://img.aixunbang.com/guide-.jpg" alt="操作步骤" class="">
+    </div>
+        <div>
+            <h4>爱寻帮夺宝步骤</h4>
+            <ul class="list">
+                <li><span class="index">1&nbsp;&nbsp;</span>选择喜欢的商品</li>
+                <li><span class="index">2&nbsp;&nbsp;</span>支付相应金额：商品分配对应数量的号码，使用对应可以获得其中N个号码（系统随机分配）；</li>
+                <li><span class="index">3&nbsp;&nbsp;</span>获得商品：当所有号码都被分配完毕后，系统根据规则计算出1个幸运号码，持有该号码的支持者，直接获得该商品。</li>
+            </ul>
+            <h4>幸运号码计算规则</h4>
+            <ul class="list">
+                <li><span class="index">1&nbsp;&nbsp;</span>商品的最后一个号码分配完毕后，将公示截止该时间点本站全部商品的最后50个参与时间；</li>
+                <li><span class="index">2&nbsp;&nbsp;</span>将这50个时间的数值进行求和（得出数值A）（每个时间按时、分、秒、毫秒的顺序组合，如20:15:25.362则为201525362）；</li>
+                <li><span class="index">3&nbsp;&nbsp;</span>为保证公平公正公开，系统还会等待一小段时间，取最近下一期中国福利彩票“老时时彩”的揭晓结果（一个五位数值B）；</li>
+                <li><span class="index">4&nbsp;&nbsp;</span>（数值A+数值B）除以该商品总需人次得到的余数<i data-func="remainder" class="ico ico-questionMark" style="margin-top:-2px;"></i> + 原始数 10000001，得到最终幸运号码，拥有该幸运号码者，直接获得该商品。</li>
+                <li> <strong>注：如遇福彩中心通讯故障，无法获取上述期数的中国福利彩票“老时时彩”揭晓结果，则默认“老时时彩”揭晓结果为0</strong></li>
+            </ul>
+            <h4>关于老时时彩</h4>
+            <ul class="list">
+                <li><span class="index">1&nbsp;&nbsp;</span>“老时时彩”是由中国福彩中心发行的一种彩票，1元夺宝仅取其结果作为抗干扰数据源，以示公平公正公开，和“老时时彩”本身没有任何关系；</li>
+                <li><span class="index">2&nbsp;&nbsp;</span>“老时时彩”每天10:00-22:00-02:00进行揭晓，白天72期，10分钟揭晓，夜间48期，5分钟揭晓，停开时间以福彩中心公布信息为准；</li>
+                <li><span class="index">3&nbsp;&nbsp;</span>了解更多“老时时彩”信息，可自行至彩点查询。</li>
+            </ul>
+            <h4>晒单规则</h4>
+            <p class="show-tips">如果您获得商品了，可以通过晒单和网友们分享喜悦，帮助大家更充分的了解一元夺宝众筹平台的乐趣，而且，晒单成功，会获<strong>最高5夺宝币奖励！</strong>晒单的时候，我们提醒您注意以下几点：</p>
+            <ul class="list">
+                <li><span class="index">1&nbsp;&nbsp;</span>详细的内容，是晒单的精华，因此，建议您的晒单不少于50字，并且配上2张以上不同的照片（跪求高清无码）；</li>
+                <li><span class="index">2&nbsp;&nbsp;</span>真实，是晒单的灵魂，因此，您可以将快递单号也晒上来哦~（快递单上的个人隐私部分，建议您马赛克处理下</li>
+                <li><span class="index">3&nbsp;&nbsp;</span>一般大家都喜欢沾仙气，因此，您能够出镜和商品合个影儿什么的，给大家一起膜拜就再好不过了！</li>
+                <li><span class="index">5&nbsp;&nbsp;</span>如果同一类商品多次获得，请勿简单的复制粘贴之前的晒单内容。</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

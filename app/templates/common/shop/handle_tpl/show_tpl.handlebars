@@ -1,0 +1,22 @@
+{{#each data}}
+<div class="col-md-3 col-sm-4 col-xs-6 fix-padding">
+	<div class="announced-item">
+		<div class="img-link">
+			<a href="/show/{{this.id}}"><img src="{{this.thumbnail}}!list"></a>
+		</div>
+		<div class="item-title">
+            <a href="/show/{{this.id}}">{{this.period.product.title}}</a>
+        </div>
+        <div><span>幸运号码：</span><strong>{{this.period.kj_num}}</strong>
+        	<span class="describe-info">第{{this.period.number}}期</span>
+        </div>
+		<div class="content">
+			<ul class="post-info">
+				<li class="user-name"><a href="/user/{{this.owner.id}}">{{this.owner.name}}</a></li>
+				<li class="time">{{this.created_datetime}}</li>
+			</ul>
+            <div class="post">{{this.title}}</div>
+		</div>
+	</div>
+</div>
+{{/each}}

@@ -1,0 +1,35 @@
+<h3>最新一期</h3>
+<div class="new-period">
+	<h5>最新一期正在进行！</h5>
+	<div class="product-info">
+		<div class="img-link">
+			<a target="_blank" href="{{url_for('period_detail',pid=newest_period.id)}}"><img src="{{newest_period.product.thumbnail}}"></a>
+		</div>
+		<div class="item-title">
+			<a target="_blank" href="{{url_for('period_detail',pid=newest_period.id)}}">{{newest_period.product.title}}</a>
+		</div>
+		<div class="sell-info describe-info">总需：{{newest_period.total_count}}人次</div>
+		<div class="sell-progress">
+			{% set pecent = newest_period.join_count*100 / newest_period.total_count %}
+			<span class="orange" style="width:{{pecent}}%"></span>
+		</div>
+		<div class="join-info describe-info clearfix">
+			<span>参与：{{newest_period.join_count}}人次</span>
+			{% set left=newest_period.total_count- newest_period.join_count %}
+			<span class="pull-right">剩余：{{left}}人次</span>
+		</div>
+	</div>
+	<form action="/order" method="post">
+		<div class="join-box text-center">
+			<div class="join-select text-center">
+				<span>我要参与：</span>
+				<input type="hidden" value="{{newest_period.id}}" name="pid">
+				<a class="minus" href="javascript:void(0);"><span class="glyphicon glyphicon-minus"></span></a>
+				<input type="type" value="1" name="amount">
+				<a class="plus" href="javascript:void(0);"  data-max="{{left}}"><span class="glyphicon glyphicon-plus"></span></a>
+				<span style="margin-left:5px;">人次</span>
+			</div>
+			<button type="submit" class="btn btn-primary">立即夺宝</button>
+		</div>
+	</form>
+</div>

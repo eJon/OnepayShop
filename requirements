@@ -1,0 +1,17 @@
+Flask==0.10.1
+Flask-Login==0.2.11
+flask-peewee==0.6.7
+Flask-DebugToolbar==0.9.2
+Flask-Security==1.7.4
+Flask-HTTPAuth==2.5.0
+python_memcached==1.57
+Flask-Sitemap==0.1.0
+mobile.sniffer==1.0.0
+qiniu==7.0.7
+apscheduler==3.2.0
+Flask-OAuthlib==0.9.3
+pingpp
+flask-restful
+apscheduler
+qiniu
+

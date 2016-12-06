@@ -1,0 +1,8 @@
+{{#each data}}
+<ul class="item">
+	<li class="time">{{this.created_datetime}}<span></span></li>
+	<li class="avatar"><img src="{{this.owner.avatar}}"></li>
+	<li class="name"><a href="/user/{{this.owner.id}}"><span>{{this.owner.name}}</span></a></li>
+	<li class="join-count"><span>参与了<strong>{{this.count}}</strong>人次</span><a data-num="{{this.num}}" class="view-num" href="javascript:void(0)">查看号码</a></li>
+</ul>
+{{/each}}

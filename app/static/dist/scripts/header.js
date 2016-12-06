@@ -1,0 +1,1 @@
+require(["jquery","affix"],function(){$(".scroll-top").on("click",function(){var o=$(window).scrollTop();o>=150&&$("html,body").animate({scrollTop:0},"slow")})});

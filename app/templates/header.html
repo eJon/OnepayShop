@@ -1,0 +1,46 @@
+<div id="header" class="top-header">
+    <div class="top-line">
+        <div class="container">
+            <div class="tl-left pull-left">欢迎来到爱夺宝</div>
+            <div class="tl-right pull-right">
+                {% if not current_user.id %}
+                <a href="/login">请登陆</a>
+                <a href="/register">请注册</a>
+                {% else %}
+                <a href="{{url_for('my_home')}}">{{ current_user.name }}</a>
+                <a href="{{url_for('my_home')}}">我的夺宝</a>
+                <a href="/logout">退出</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="top-back">
+        <div class="container">
+            <!-- <div class="logo pull-left">
+                <img src="/static/img/logo.psng">
+            </div> -->
+            <div class="qr-code text-right">
+                <span class="qr-tips">微信扫一扫,夺宝更方便 <span class="glyphicon glyphicon-hand-right"></span></span>
+                <img src="/static/img/qrcode.jpg">
+            </div>
+        </div>
+    </div>
+    <div class="site-navbar" data-spy="affix" data-offset-top="130">
+        <div class="container">
+            <ul class="list">
+                <li class="all-category">
+                    <div class="all"><a href="">全部商品分类</a></div>
+                    <ul class="categories">
+                        {% for cate in g.categorys %}
+                        <li class="category"><a href="">{{cate.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>   
+                <li><a href="/">首页</a></li>
+                <li><a href="/announced">最新揭晓</a></li>
+                <li><a href="">晒单分享</a></li>
+                <li><a href="">新手指导</a></li>
+            </ul>
+        </div>s
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="address">
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+	{% for category, message in messages %}
+	{% if category == 'address' %}<div class="red-color text-center">{{ message }}</div>{% endif %}
+	{% endfor %}
+	{% endif %}
+	{% endwith %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>收货人</th>
+				<th>联系电话</th>
+				<th>地址</th>
+				<th>默认地址</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in records %}
+			<tr class="addr-row" data-name="{{item.name}}" data-tel="{{item.tel}}" data-prov="{{item.province}}" data-city="{{item.city}}" data-dist="{{item.dist}}" data-id="{{item.id}}" data-detail="{{item.detail}}">
+				<td>{{item.name}}</td>
+				<td>{{item.tel}}</td>
+				<td>{{item.province}} {{item.city}} {{item.dist}} {{item.detail}}</td>
+				<td class="default-flag">{% if item.id == current_user.default_address_id %}是{% endif %}</td>
+				<td class="options-addr">
+					<a class="edit-addr link-color" href="javascript:;">编辑</a>
+					<a class="delete-addr link-color"  href="javascript:void(0);">删除</a>
+					{% if item.id != current_user.default_address_id %}
+					<a class="default-addr link-color"  href="javascript:void(0);">设为默认</a>
+					{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+
+			<tr><td colspan="4"></td><td><a class="link-color add-addr" href="javascript:void(0);">添加</a></td></tr>
+
+		</tbody>
+	</table>
+	{% include "user/modal_addr.html" %}
+</div>

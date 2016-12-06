@@ -1,0 +1,13 @@
+{{#each data}}
+<tr>
+	<td style="color:#888;">{{this.created_datetime}}</td>
+	<td>{{this.pay_method}}</td>
+	<td><strong>{{this.pay_count}}</strong></td>
+	<td><strong>{{this.db_count}}</strong></td>
+	{{# if this.status}}
+	<td style="color:green">成功</td>
+	{{else}}
+	<td style="color:green">失败</td>
+	{{/if}}
+</tr>
+{{/each}}

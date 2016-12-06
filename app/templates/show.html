@@ -1,0 +1,20 @@
+{% extends 'frontend-base.html' %}
+{% from '/common/pagination.html' import render_pagination %}
+{% block content %}
+<div class="container">
+    <div class="show">
+        <h3>晒单分享</h3>
+        <div class="row">
+            {% for item in shows %}
+            {% include "common/show_item.html" %}
+            {% endfor %}
+        </div>
+    </div>
+    {% if pagination.pages >=2 %}
+    <div class="bottom-pagination text-center">            
+        {{ render_pagination(pagination) }}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

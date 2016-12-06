@@ -1,0 +1,21 @@
+<div class="col-md-3 col-sm-4 col-xs-6 product-container">
+	<div class="product-item">
+		<div class="img-link">
+			<a href="" target="_blank"><img src="{{item.product.thumbnail}}"></a>
+		</div>
+		<div class="item-title"><a target="_blank" href="">{{item.product.title}}</a></div>
+		<div class="sell-info describe-info">总需：{{item.total_count}}人次</div>
+		<div class="sell-progress">
+			{% set pecent = item.join_count*100 / item.total_count %}
+			<span class="orange" style="width:{{pecent}}%"></span>
+		</div>
+		<div class="join-info describe-info clearfix">
+			<span>参与：{{item.join_count}}人次</span>
+			{% set left=item.total_count- item.join_count %}
+			<span class="pull-right">剩余：{{left}}人次</span>
+		</div>
+		<div class="db-btn text-center">
+			<a  href="{{url_for('period_detail',pid=item.id)}}" class="btn btn-primary">立即夺宝</a>
+		</div>
+	</div>
+</div>
